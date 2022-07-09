@@ -1,6 +1,7 @@
-export interface NewPostEntity extends Omit<PostEntity, 'id'>  {
+export interface NewPostEntity extends Omit<PostEntity, 'id' | 'createdAt'>  {
 
-  id?: string
+  id?: string,
+  createdAt?: Date,
 
 }
 

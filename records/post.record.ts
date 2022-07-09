@@ -1,8 +1,12 @@
+import { FieldPacket } from "mysql2";
 import { NewPostEntity, PostEntity } from "../types";
+import { pool } from "../utils/db";
 import { ValidationError } from "../utils/errors";
 
-export class PostRecord implements PostEntity {
+type PostRecordResults = [PostEntity[], FieldPacket[]];
 
+export class PostRecord implements PostEntity {
+  
   id: string;
   tags: string[];
   likeCount: number;
@@ -47,5 +51,13 @@ export class PostRecord implements PostEntity {
     this.message = obj.message;
     this.selectedFile = obj.selectedFile;
 
+  }
+
+  static async getOne(id: string): Promise<PostRecord | null> {
+    const [results] = await pool.execute("SELECT * FROM `memories` WHERE id = :id", {
+      id,
+    }) as PostRecordResults;
+
+    return results.length === 0 ? null : new PostRecord(results[0]);
   }
 }

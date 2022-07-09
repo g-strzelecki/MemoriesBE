@@ -2,7 +2,7 @@ import { PostRecord } from "../records/post.record";
 
 const defaultObj = {
   id: 'abc',
-  tags: ['aaa','bbb'],
+  tags: 'aaa,bbb',
   likeCount: 0,
   createdAt: new Date(),
   author: 'Test author',

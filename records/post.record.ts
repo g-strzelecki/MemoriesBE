@@ -60,4 +60,12 @@ export class PostRecord implements PostEntity {
 
     return results.length === 0 ? null : new PostRecord(results[0]);
   }
+
+  static async findAll(title: string): Promise<PostRecord[]> {
+    const [results] = await pool.execute("SELECT * FROM `memories` WHERE `title` LIKE :search", {
+      search: `%${title}%`,
+    }) as PostRecordResults;
+
+    return results.map(result => new PostRecord(result));
+  }
 }

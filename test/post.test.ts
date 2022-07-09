@@ -1,5 +1,9 @@
-import { PerformanceEntry } from "perf_hooks";
 import { PostRecord } from "../records/post.record";
+import { pool } from "../utils/db";
+
+afterAll(async () => {
+  await pool.end();
+})
 
 test('PostRecord returns data from database for one entry.', async () => {
 
@@ -18,5 +22,14 @@ test('PostRecord returns null from database for unexisting PerformanceEntry.', a
   const post = await PostRecord.getOne('xxx');
 
   expect(post).toBeNull();
+
+});
+
+test('PostRecord returns array of found entries.', async () => {
+
+  const posts = await PostRecord.findAll('');
+
+  expect(posts).not.toEqual([]);
+  expect(posts[0].id).toBeDefined();
 
 });

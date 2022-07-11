@@ -3,6 +3,7 @@ import cors from "cors";
 import 'express-async-errors';
 import { handleError, ValidationError } from "./utils/errors";
 import rateLimit from 'express-rate-limit';
+import { PostRouter } from "./routers/post.router";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(rateLimit({
 app.get('/', async (req, res) => {
   throw new ValidationError('Test error!');
 })
+
+app.use('/post', PostRouter);
 
 app.use(handleError);
 

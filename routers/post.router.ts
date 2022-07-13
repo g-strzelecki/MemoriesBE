@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { PostRecord } from "../records/post.record";
-// import multer from "multer";
+import { ValidationError } from "../utils/errors";
 
 export const PostRouter = Router()
 
@@ -26,5 +26,34 @@ export const PostRouter = Router()
 
     await post.insert();
     res.json(post);
+
+  })
+
+  .delete('/:id', async (req, res) => {
+    
+    const post = await PostRecord.getOne(req.params.id);
+
+    if (!post) {
+      throw new ValidationError('No such record to delete in database.');
+    }
+
+    await post.delete();
+
+    res.json(post.id);
+
+  })
+
+  .patch('/:id', async (req, res) => {
+
+    const postDB = await PostRecord.getOne(req.params.id);
+
+    if (postDB === null) {
+      throw new ValidationError('No record found with this ID.');
+    }
+
+    const post = await new PostRecord(req.body);
+
+    await post.update();
+    res.json(post.id);
 
   })

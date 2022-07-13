@@ -81,4 +81,26 @@ export class PostRecord implements PostEntity {
 
     await pool.execute("INSERT INTO `memories`(`id`, `tags`, `likeCount`, `author`, `title`, `message`, `selectedFile`) VALUES(:id, :tags, :likeCount, :author, :title, :message, :selectedFile)", this);
   }
+
+  async delete(): Promise<void> {
+    await pool.execute("DELETE FROM `memories` WHERE `id` = :id", {
+      id: this.id,
+    });
+  }
+
+  async update(): Promise<void> {
+
+    if (this.id) {
+      await pool.execute("UPDATE `memories` SET `author` = :author, `title` = :title, `tags` = :tags, `message` = :message WHERE `id` = :id", {
+        id: this.id,
+        author: this.author,
+        title: this.title,
+        tags: this.tags,
+        message: this.message,
+      });
+
+    } else {
+      throw new ValidationError('There is no such record to update.');
+    }
+  }
 }

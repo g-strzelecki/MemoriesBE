@@ -51,13 +51,12 @@ export const PostRouter = Router()
     
     const FILE_NAME = path.resolve(`./public/${post.selectedFile}`);
 
-    (async () => {
       try {
         await access(FILE_NAME, W_OK); 
       } catch (error) {
         throw new ValidationError('No such file in directory');
       }
-    })();
+    ;
     
     res.json(post.id);
 

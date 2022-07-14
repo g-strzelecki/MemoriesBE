@@ -1,4 +1,4 @@
-import express, { json, static as staticFolder } from "express";
+import express, { json, static as staticFolder, urlencoded } from "express";
 import cors from "cors";
 import 'express-async-errors';
 import { handleError, ValidationError } from "./utils/errors";
@@ -14,7 +14,8 @@ app.use(cors({
 
 app.use(staticFolder('public'));
 
-app.use(json());
+app.use(json({ limit: '5mb' }))
+app.use(urlencoded({ extended: true}))
 app.use(rateLimit({
   windowMs: 5 * 60 * 1000,
   max: 100,
@@ -47,7 +48,7 @@ app.post('/upload', (req, res) => {
 app.use('/post', PostRouter);
 
 app.get('/:id', async (req, res) => {
-  throw new ValidationError('At least one image does not exists in database.');
+  throw new ValidationError('Image does not exists in database.');
 })
 
 app.use(handleError);

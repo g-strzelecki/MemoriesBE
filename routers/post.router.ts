@@ -16,6 +16,12 @@ export const PostRouter = Router()
 
     const post = await PostRecord.getOne(req.params.id);
 
+    if (!post) {
+      res
+        .status(404)
+        .json({ message: "There is no such record with this ID in database." })
+    }
+
     res.json(post);
 
   })

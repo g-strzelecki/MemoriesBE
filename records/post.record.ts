@@ -33,13 +33,19 @@ export class PostRecord implements PostEntity {
 
     if (!obj.author || obj.author.length > 50) {
 
-      throw new ValidationError('Author cannot be empty or exceed 50 chars.');
+      throw new ValidationError('Creator cannot be empty or exceed 50 chars.');
+      
+    }
+    
+    if (obj.author.length < 3) {
+
+      throw new ValidationError('Creator has to be at least 3 chars long.');
       
     }
 
     if (!obj.selectedFile || obj.selectedFile.length > 500) {
 
-      throw new ValidationError('Author cannot be empty or exceed 500 chars.');
+      throw new ValidationError('Creator cannot be empty or exceed 500 chars.');
 
     }
     
@@ -76,7 +82,7 @@ export class PostRecord implements PostEntity {
     if (!this.id) {
       this.id = uuid();
     } else {
-      throw new Error('This record already exists.');
+      throw new ValidationError('This record already exists.');
     }   
 
     await pool.execute("INSERT INTO `memories`(`id`, `tags`, `likeCount`, `author`, `title`, `message`, `selectedFile`) VALUES(:id, :tags, :likeCount, :author, :title, :message, :selectedFile)", this);

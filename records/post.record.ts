@@ -43,9 +43,15 @@ export class PostRecord implements PostEntity {
       
     }
 
+    if (!obj.tags || obj.tags.length > 100) {
+
+      throw new ValidationError('Tags field cannot be empty or exceed 100 chars.');
+      
+    }
+
     if (!obj.selectedFile || obj.selectedFile.length > 500) {
 
-      throw new ValidationError('Creator cannot be empty or exceed 500 chars.');
+      throw new ValidationError('Attached file cannot be empty or exceed 500 chars.');
 
     }
     

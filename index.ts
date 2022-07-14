@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage}).single('file');
 
 app.get('/', async (req, res) => {
-  throw new ValidationError('Test error!');
+  throw new ValidationError('You shall not pass!');
 })
 
 app.post('/upload', (req, res) => {
@@ -45,6 +45,10 @@ app.post('/upload', (req, res) => {
 });
 
 app.use('/post', PostRouter);
+
+app.get('/:id', async (req, res) => {
+  throw new ValidationError('At least one image does not exists in database.');
+})
 
 app.use(handleError);
 

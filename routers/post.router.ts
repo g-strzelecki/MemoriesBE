@@ -2,20 +2,22 @@ import { Router } from "express";
 import { PostRecord } from "../records/post.record";
 import { ValidationError } from "../utils/errors";
 import path from "path";
-import fs from "fs/promises";
+import { access } from "fs/promises";
+const { W_OK } = require('fs').constants;
 
 export const PostRouter = Router()
 
   .get('/search/:title?', async (req, res) => {
 
     const posts = await PostRecord.findAll(req.params.title ?? ''); 
-
+    
     res.json(posts);
 
+    
   })
-
+  
   .get('/:id', async (req, res) => {
-
+    
     const post = await PostRecord.getOne(req.params.id);
 
     if (!post) {
@@ -44,11 +46,19 @@ export const PostRouter = Router()
     if (!post) {
       throw new ValidationError('No such record to delete in database.');
     }
-
+    
     await post.delete();
+    
+    const FILE_NAME = path.resolve(`./public/${post.selectedFile}`);
 
-    fs.rm(path.resolve(`./public/${post.selectedFile}`));
-
+    (async () => {
+      try {
+        await access(FILE_NAME, W_OK); 
+      } catch (error) {
+        throw new ValidationError('No such file in directory');
+      }
+    })();
+    
     res.json(post.id);
 
   })

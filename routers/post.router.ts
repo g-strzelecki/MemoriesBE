@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { PostRecord } from "../records/post.record";
 import { ValidationError } from "../utils/errors";
+import path from "path";
+import fs from "fs/promises";
 
 export const PostRouter = Router()
 
@@ -21,7 +23,7 @@ export const PostRouter = Router()
         .status(404)
         .json({ message: "There is no such record with this ID in database." })
     }
-
+    
     res.json(post);
 
   })
@@ -44,6 +46,8 @@ export const PostRouter = Router()
     }
 
     await post.delete();
+
+    fs.rm(path.resolve(`./public/${post.selectedFile}`));
 
     res.json(post.id);
 

@@ -5,7 +5,12 @@ export interface NewPostEntity extends Omit<PostEntity, 'id' | 'createdAt'>  {
 
 }
 
-export interface PostEntity {
+export interface SimplePostEntity {
+  id: string;
+  likeCount: number;
+}
+
+export interface PostEntity extends SimplePostEntity {
   id: string,
   tags: string,
   likeCount: number,

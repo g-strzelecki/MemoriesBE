@@ -3,6 +3,7 @@ import { PostRecord } from "../records/post.record";
 import { ValidationError } from "../utils/errors";
 import path from "path";
 import { access } from "fs/promises";
+import { likeRecord } from "../records/like.record";
 const { W_OK } = require('fs').constants;
 
 export const PostRouter = Router()
@@ -13,7 +14,6 @@ export const PostRouter = Router()
     
     res.json(posts);
 
-    
   })
   
   .get('/:id', async (req, res) => {
@@ -58,6 +58,22 @@ export const PostRouter = Router()
       }
     ;
     
+    res.json(post.id);
+
+  })
+
+  .patch('/like/:id', async (req, res) => {
+
+    const postDB = await PostRecord.getOne(req.params.id);
+    console.log('Body :', req.body);
+
+    if (postDB === null) {
+      throw new ValidationError('No record found with this ID.');
+    }
+
+    const post = await new likeRecord(req.body);
+
+    await post.updateLikes();
     res.json(post.id);
 
   })

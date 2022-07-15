@@ -1,6 +1,6 @@
 # MemoriesBE
 Memories Project - Backend\
-This project is created with node.js (express framework), and mysql database.\
+This project is created with node.js (express framework), and mysql database.
 
 Link for the frontend repository:\
  [https://github.com/g-strzelecki/MemoriesFE](https://github.com/g-strzelecki/MemoriesFE) 
@@ -8,11 +8,11 @@ Link for the frontend repository:\
 ## Info
 
 Pull BE repo into folder called: memories-back\
-Pull FE repo into folder called: memories-front\
+Pull FE repo into folder called: memories-front
 
-Keep both folders on the same dir level.\
+Keep both folders on the same dir level.
 
-Initialize package.json to import dependencies.\
+Initialize package.json to import dependencies.
 
 Use memories.sql file to create database with example records.\
 Use config.example.ts to create config.ts with connection to Your local mysql server. 

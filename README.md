@@ -7,6 +7,13 @@ Link for the frontend repository:\
 
 ## Info
 
+Pull BE repo into folder called: memories-back\
+Pull FE repo into folder called: memories-front\
+
+Keep both folders on the same dir level.\
+
+Initialize package.json to import dependencies.\
+
 Use memories.sql file to create database with example records.\
 Use config.example.ts to create config.ts with connection to Your local mysql server. 
 
